@@ -1,3 +1,4 @@
+import AddToCartButton from "@/app/components/AddToCartButton";
 import { getProduct } from "@/lib/shopify";
 import Image from "next/image";
 import { notFound } from "next/navigation";
@@ -65,9 +66,14 @@ export default async function ProductPage({ params }: { params: Promise<{ handle
             />
 
             {/* Boton de Acción */}
-            <button className="mt-8 w-full bg-white text-black py-4 uppercase tracking-[0.2em] text-xs font-bold hover:bg-zinc-200 transition-colors">
-              Add to Collection
-            </button>
+            <AddToCartButton 
+                product={{
+                    id: product.id, // Ojo: Idealmente usaríamos variantId aquí, pero por ahora product.id sirve para probar
+                    title: product.title,
+                    price: product.priceRange.minVariantPrice.amount,
+                    image: image?.url
+                }} 
+                />
           </div>
 
         </div>
