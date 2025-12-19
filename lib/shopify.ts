@@ -46,3 +46,38 @@ export async function getProducts() {
     `,
   });
 }
+
+export async function getProduct(handle: string) {
+  const query = `
+    query getProductByHandle($handle: String!) {
+      product(handle: $handle) {
+        id
+        title
+        description
+        updatedAt
+        tags
+        priceRange {
+          minVariantPrice {
+            amount
+            currencyCode
+          }
+        }
+        images(first: 5) {
+          edges {
+            node {
+              url
+              altText
+            }
+          }
+        }
+      }
+    }
+  `;
+
+  const res = await shopifyFetch({
+    query,
+    variables: { handle },
+  });
+
+  return res.data.product;
+}
